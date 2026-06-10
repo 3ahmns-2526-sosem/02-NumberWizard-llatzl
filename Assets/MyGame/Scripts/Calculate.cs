@@ -23,29 +23,37 @@ public class GameManager : MonoBehaviour
         
         guess = (min + max) / 2;
 
-        // Aktualisierung der UI
+        
         UpdateGuessUI();
     }
     public void OnHigherPressed()
     {
-        // Da die gesuchte Zahl höher ist, wird das Minimum angehoben
+        
         min = guess + 1;
 
-        // Neuen Guess berechnen und UI updaten
+        
+        CalculateNextGuess();
+    }
+    public void OnLowerPressed()
+    {
+        
+        max = guess - 1;
+
+        
         CalculateNextGuess();
     }
     void CalculateNextGuess()
     {
-        // Schutzschritt: Verhindert, dass min über max hinausschießt
+        
         if (min > max)
         {
             min = max;
         }
 
-        // Berechnung des neuen Mittelwerts
+        
         guess = (min + max) / 2;
 
-        // UI aktualisieren
+        
         UpdateGuessUI();
     }
 
