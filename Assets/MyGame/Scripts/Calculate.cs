@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro; // Nötig, wenn du TextMeshPro für die UI verwendest
 
-public class Calculate : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     [Header("Zahlenbereich")]
     [SerializeField] private int min = 1;
@@ -15,6 +15,7 @@ public class Calculate : MonoBehaviour
     void Start()
     {
         CalculateFirstGuess();
+        CalculateNextGuess();
     }
 
     void CalculateFirstGuess()
@@ -25,16 +26,34 @@ public class Calculate : MonoBehaviour
         // Aktualisierung der UI
         UpdateGuessUI();
     }
+    public void OnHigherPressed()
+    {
+        // Da die gesuchte Zahl höher ist, wird das Minimum angehoben
+        min = guess + 1;
+
+        // Neuen Guess berechnen und UI updaten
+        CalculateNextGuess();
+    }
+    void CalculateNextGuess()
+    {
+        // Schutzschritt: Verhindert, dass min über max hinausschießt
+        if (min > max)
+        {
+            min = max;
+        }
+
+        // Berechnung des neuen Mittelwerts
+        guess = (min + max) / 2;
+
+        // UI aktualisieren
+        UpdateGuessUI();
+    }
 
     void UpdateGuessUI()
     {
         if (guessText != null)
         {
             guessText.text = guess.ToString();
-        }
-        else
-        {
-            Debug.LogWarning("flasch");
         }
     }
 }
