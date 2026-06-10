@@ -1,5 +1,6 @@
 using UnityEngine;
-using TMPro; // Nötig, wenn du TextMeshPro für die UI verwendest
+using TMPro; 
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class GameManager : MonoBehaviour
 
     [Header("UI Elemente")]
     [SerializeField] private TMP_Text guessText; 
+    [SerializeField] private Button higherButton; // Im Inspector zuweisen
+    [SerializeField] private Button lowerButton;  // Im Inspector zuweisen
+    [SerializeField] private Button correctButton;
 
     private int guess;
 
@@ -42,6 +46,17 @@ public class GameManager : MonoBehaviour
         
         CalculateNextGuess();
     }
+    public void OnCorrectPressed()
+    {
+        // Erfolgsmeldung anzeigen (der finale Guess bleibt sichtbar)
+        if (guessText != null)
+        {
+            guessText.text = $"I guessed your number! It was {guess}!";
+        }
+
+        // Buttons deaktivieren, um weitere Eingaben zu sperren
+        SetButtonsInteractable(false);
+    }
     void CalculateNextGuess()
     {
         
@@ -63,5 +78,11 @@ public class GameManager : MonoBehaviour
         {
             guessText.text = guess.ToString();
         }
+    }
+    void SetButtonsInteractable(bool state)
+    {
+        if (higherButton != null) higherButton.interactable = state;
+        if (lowerButton != null) lowerButton.interactable = state;
+        if (correctButton != null) correctButton.interactable = state;
     }
 }
